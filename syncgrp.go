@@ -21,8 +21,7 @@ func New() *SyncGrp {
 	return &sg
 }
 
-// Lock allows a SyncGrp to Lock based on its
-// underlying mutex
+// Lock locks the SyncGrp's underlying Mutex
 func (sg *SyncGrp) Lock() {
 	sg.mu.Lock()
 }
@@ -47,10 +46,21 @@ func (sg *SyncGrp) RWLockCndtnl(doit bool) {
 	}
 }
 
+// RLock allows a SyncGrp to Lock based on its
+// underlying mutex
+func (sg *SyncGrp) RLock() {
+	sg.rw.RLock()
+}
+
 // Unlock allows a SyncGrp to Lock based on its
 // underlying mutex
 func (sg *SyncGrp) Unlock() {
 	sg.mu.Unlock()
+}
+
+// RUnlock unlocks the SyncGrp's underlying RWMutex
+func (sg *SyncGrp) RUnlock() {
+	sg.rw.RUnlock()
 }
 
 // UnlockCndtnl calls Unlock iff the bool is true
